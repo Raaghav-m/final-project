@@ -8,16 +8,10 @@ const networkConfig = {
   },
   11155111: {
     name: "sepolia",
-    governanceTokenAddress: "0x65BbC2437b955393eB21610a72C18b724D3cC63e",
-    createGovernanceAddress: "0x97C51f70a44c0837E02a180e5D116EC2B57c2581",
-    userSideAddress: "0x7661c9F567c41101bf2Af2b7592Aeb840A867AEF",
-  },
-  1: {
-    name: "mainnet",
-    governanceTokenAddress: "your_governance_token_address",
-    createGovernanceAddress: "your_create_governance_address",
-    userSideAddress: "your_user_side_address",
-    blockConfirmations: 6,
+    governanceTokenAddress: "", //paste the address of the governance token
+    createGovernanceAddress: "", //paste the address of the create governance address
+    userSideAddress: "", //paste the address of the userside contract
+    blockConfirmations: 2,
   },
 };
 

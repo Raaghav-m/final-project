@@ -1,5 +1,5 @@
 const { ethers } = require("hardhat");
-
+const { getNetworkConfig } = require("../helper-hardhat-config");
 async function main() {
   try {
     // Get network configuration
@@ -8,7 +8,7 @@ async function main() {
     console.log(`Getting user ID on ${networkName} (Chain ID: ${chainId})`);
 
     // Contract address
-    const userSideAddress = "0x7661c9F567c41101bf2Af2b7592Aeb840A867AEF";
+    const userSideAddress = getNetworkConfig(chainId).userSideAddress;
     console.log("\nUserSide Contract Address:", userSideAddress);
 
     // Get contract instance

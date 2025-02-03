@@ -9,7 +9,7 @@ async function joinDao() {
     console.log(`Joining DAO on ${networkName} (Chain ID: ${chainId})`);
 
     // Member address that wants to join
-    const memberAddress = "0x07b1DAf7b72dd9E0F6D57e4B9C8cFC00719096f9";
+    const memberAddress = ""; //paste the address of the member to join
     console.log("Member trying to join:", memberAddress);
 
     // Get network config

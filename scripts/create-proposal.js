@@ -1,4 +1,5 @@
 const { ethers, network } = require("hardhat");
+const { getNetworkConfig } = require("../helper-hardhat-config");
 
 async function main() {
   try {
@@ -20,8 +21,9 @@ async function main() {
     console.log("User 2:", user2.address);
 
     // Contract addresses (replace with your deployed contract addresses)
-    const userSideAddress = "0x7661c9F567c41101bf2Af2b7592Aeb840A867AEF";
-    const governanceTokenAddress = "0x65BbC2437b955393eB21610a72C18b724D3cC63e";
+    const userSideAddress = getNetworkConfig(chainId).userSideAddress;
+    const governanceTokenAddress =
+      getNetworkConfig(chainId).governanceTokenAddress;
 
     console.log("\nContract Addresses:");
     console.log("UserSide:", userSideAddress);
