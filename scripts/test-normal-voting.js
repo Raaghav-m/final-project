@@ -1,4 +1,5 @@
 const { ethers, network } = require("hardhat");
+const { getNetworkConfig } = require("../helper-hardhat-config");
 
 async function main() {
   try {
@@ -19,11 +20,13 @@ async function main() {
     console.log("User 1:", user1.address);
     console.log("User 2:", user2.address);
 
-    // Hardcoded contract addresses for Sepolia
-    const userSideAddress = "0x7661c9F567c41101bf2Af2b7592Aeb840A867AEF";
-    const governanceTokenAddress = "0x65BbC2437b955393eB21610a72C18b724D3cC63e";
+    // // Hardcoded contract addresses for Sepolia
+    // const userSideAddress = "0x7661c9F567c41101bf2Af2b7592Aeb840A867AEF";
+    // const governanceTokenAddress = "0x65BbC2437b955393eB21610a72C18b724D3cC63e";
 
-    console.log("\nContract Addresses:");
+    const config = getNetworkConfig(chainId);
+    const userSideAddress = config.userSideAddress;
+    const governanceTokenAddress = config.governanceTokenAddress;
     console.log("UserSide:", userSideAddress);
     console.log("GovernanceToken:", governanceTokenAddress);
 
