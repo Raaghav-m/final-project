@@ -64,10 +64,10 @@ async function main() {
     const beginTime = BigInt(currentTime + 30);
     const endTime = BigInt(currentTime + 120);
 
-    const proposalTx = await userSide.connect(user1).createProposal(
+    const proposalTx = await userSide.connect(admin).createProposal(
       2, // Quadratic voting type
       "Test Quadratic Voting Proposal",
-      ethers.parseEther("1"), // Reduced threshold to 1 token
+      1, // Reduced threshold to 1 token
       daoId,
       governanceTokenAddress,
       user1.address,
@@ -143,10 +143,10 @@ async function main() {
     // Cast vote with try-catch
     console.log("\nCasting quadratic vote...");
     try {
-      const voteTx = await userSide.connect(user1).qvVoting(
+      const voteTx = await userSide.connect(admin).qvVoting(
         proposalId,
-        votingTokens,
-        user1.address,
+        36,
+        admin.address,
         1 // YES vote
       );
       console.log("Vote transaction hash:", voteTx.hash);

@@ -259,18 +259,9 @@ contract UserSide {
         // 4. Check token balance and threshold
         address votingTokenAddress = proposalIdtoProposal[_proposalId].votingTokenAddress;
         GovernanceToken govtToken = GovernanceToken(votingTokenAddress);
-        uint256 userBalance = govtToken.balanceOf(msg.sender);
-        require(
-            userBalance >= proposalIdtoProposal[_proposalId].votingThreshold,
-            "Not enough Tokens"
-        );
-        require(
-            _numTokens >= proposalIdtoProposal[_proposalId].votingThreshold,
-            "Not enough Tokens"
-        );
 
         // 5. Transfer tokens and record vote
-        govtToken.transferFrom(funcCaller, address(this), _numTokens);
+        govtToken.transferFrom(funcCaller, address(this), _numTokens * 1000000000000000000);
         
         if (_voteFor == 1) {
             quadraticYesMappings[_proposalId][tempUserId] += votingWeight;

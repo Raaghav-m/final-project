@@ -45,7 +45,7 @@ async function createDao() {
     console.log("\nDeploying governance token for DAO...");
     const TOKEN_NAME = "Test DAO Token";
     const TOKEN_SYMBOL = "TDT";
-    const INITIAL_SUPPLY = ethers.parseEther("1000000"); // 1 million tokens
+    const INITIAL_SUPPLY = ethers.parseEther("500"); // 1 million tokens
 
     const deployTokenTx = await createGovernance.deployToken(
       TOKEN_NAME,

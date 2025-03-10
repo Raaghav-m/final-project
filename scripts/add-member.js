@@ -13,7 +13,7 @@ async function addMember() {
     console.log("Admin address:", deployer.address);
 
     // Member address to add
-    const memberAddress = ""; //paste the address of the member to add
+    const memberAddress = "0xcBE66646C0450d75957F726cF99dAD471916933B"; //paste the address of the member to add
     console.log("Adding member:", memberAddress);
 
     // Get network config
