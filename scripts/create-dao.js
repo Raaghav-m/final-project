@@ -24,9 +24,12 @@ async function createDao() {
       "CreateGovernanceToken",
       config.createGovernanceAddress
     );
+    console.log(userSide);
+    console.log(createGovernance);
 
     // First, check if user exists
-    const userId = await userSide.userWallettoUserId(deployer.address);
+    // const userId = await userSide.userWallettoUserId(deployer.address);
+    const userId = 0;
     if (userId.toString() === "0") {
       console.log("Creating new user first...");
       const createUserTx = await userSide.createUser(

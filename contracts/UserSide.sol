@@ -229,55 +229,55 @@ contract UserSide {
     }
 
     function qvVoting(
-        uint256 _proposalId,
-        uint256 _numTokens,
-        address _callerWalletAddress,
-        uint256 _voteFor
-    ) public {
-        address funcCaller = _callerWalletAddress;
-        uint256 tempDaoId = proposalIdtoProposal[_proposalId].daoId;
-        uint256 tempUserId = userWallettoUserId[_callerWalletAddress];
-        
-        // 1. Check membership
-        require(checkMembership(tempDaoId, _callerWalletAddress), "Only members of the dao can vote");
-        
-        // 2. Check voting window
-        require(
-            block.timestamp >= proposalIdtoProposal[_proposalId].beginningTime,
-            "Voting has not started"
-        );
-        require(
-            block.timestamp < proposalIdtoProposal[_proposalId].endingTime,
-            "Voting Time has ended"
-        );
+    uint256 _proposalId,
+    uint256 _numTokens,
+    address _callerWalletAddress,
+    uint256 _voteFor
+) public {
+    address funcCaller = _callerWalletAddress;
+    uint256 tempDaoId = proposalIdtoProposal[_proposalId].daoId;
+    uint256 tempUserId = userWallettoUserId[_callerWalletAddress];
 
-        // 3. Get voting power based on reputation
-        uint256 maxVotingPower = getVotingPower(tempDaoId, tempUserId);
-        uint256 votingWeight = sqrt(_numTokens);
-        require(votingWeight <= maxVotingPower, "Exceeds maximum voting power");
+    // 1. Check membership
+    require(checkMembership(tempDaoId, _callerWalletAddress), "Only members of the DAO can vote");
 
-        // 4. Check token balance and threshold
-        address votingTokenAddress = proposalIdtoProposal[_proposalId].votingTokenAddress;
-        GovernanceToken govtToken = GovernanceToken(votingTokenAddress);
+    // 2. Check voting window
+    require(
+        block.timestamp >= proposalIdtoProposal[_proposalId].beginningTime,
+        "Voting has not started"
+    );
+    require(
+        block.timestamp < proposalIdtoProposal[_proposalId].endingTime,
+        "Voting Time has ended"
+    );
 
-        // 5. Transfer tokens and record vote
-        govtToken.transferFrom(funcCaller, address(this), _numTokens * 1000000000000000000);
-        
-        if (_voteFor == 1) {
-            quadraticYesMappings[_proposalId][tempUserId] += votingWeight;
-        } else {
-            quadraticNoMappings[_proposalId][tempUserId] += votingWeight;
-        }
+    // 3. Get voting power based on reputation
+    uint256 maxVotingPower = getVotingPower(tempDaoId, tempUserId);
+    uint256 votingWeight = sqrt(_numTokens);
+    require(votingWeight <= maxVotingPower, "Exceeds maximum voting power");
 
-        // 6. Update reputation (will be finalized when proposal ends)
-        updateReputation(
-            tempDaoId,
-            tempUserId,
-            _proposalId,
-            votingWeight,
-            _voteFor == 1
-        );
+    // 4. Check token balance and threshold
+    address votingTokenAddress = proposalIdtoProposal[_proposalId].votingTokenAddress;
+    GovernanceToken govtToken = GovernanceToken(votingTokenAddress);
+
+    // 5. Transfer tokens and record vote
+    govtToken.transferFrom(funcCaller, address(this), _numTokens * 1e18);
+
+    // 6. Store the vote and ensure user is tracked
+    if (!hasVoted(tempUserId, _proposalId)) {
+        proposalIdtoVoters[_proposalId].push(tempUserId);
     }
+
+    if (_voteFor == 1) {
+        quadraticYesMappings[_proposalId][tempUserId] += votingWeight;
+    } else {
+        quadraticNoMappings[_proposalId][tempUserId] += votingWeight;
+    }
+
+    // 7. Update reputation (will be finalized when proposal ends)
+    updateReputation(tempDaoId, tempUserId, _proposalId, votingWeight, _voteFor == 1);
+}
+
 
     // Internal & Private View & Pure Functions
     function sqrt(uint256 x) internal pure returns (uint256 y) {

@@ -2,6 +2,13 @@ const { ethers, network } = require("hardhat");
 const { getNetworkConfig } = require("../helper-hardhat-config");
 async function main() {
   try {
+    const curentTime = Math.floor(Date.now() / 1000);
+    const beinTime = BigInt(curentTime + 30);
+    console.log(beinTime);
+    const enTime = BigInt(curentTime + 120);
+    console.log(enTime);
+
+    return;
     // Get network configuration
     const networkName = network.name;
     const chainId = network.config.chainId;
@@ -62,8 +69,9 @@ async function main() {
     console.log("\nCreating new quadratic voting proposal...");
     const currentTime = Math.floor(Date.now() / 1000);
     const beginTime = BigInt(currentTime + 30);
+    console.log(beginTime);
     const endTime = BigInt(currentTime + 120);
-
+    console.log(endTime);
     const proposalTx = await userSide.connect(admin).createProposal(
       2, // Quadratic voting type
       "Test Quadratic Voting Proposal",
@@ -113,7 +121,7 @@ async function main() {
     console.log("Token balance:", ethers.formatEther(balance));
 
     // Calculate optimal voting tokens (25 tokens = 5 voting power)
-    const votingTokens = ethers.parseEther("0.009");
+    const votingTokens = ethers.parseEther("36");
 
     console.log("\nVoting Power Calculation:");
     console.log("Tokens being used:", ethers.formatEther(votingTokens));
@@ -143,12 +151,9 @@ async function main() {
     // Cast vote with try-catch
     console.log("\nCasting quadratic vote...");
     try {
-      const voteTx = await userSide.connect(admin).qvVoting(
-        proposalId,
-        36,
-        admin.address,
-        1 // YES vote
-      );
+      const voteTx = await userSide
+        .connect(admin)
+        .qvVoting(proposalId, 36, admin.address, 1);
       console.log("Vote transaction hash:", voteTx.hash);
       const receipt = await voteTx.wait(confirmations);
       console.log("Vote confirmed in block:", receipt.blockNumber);

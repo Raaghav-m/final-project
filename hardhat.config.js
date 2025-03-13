@@ -27,10 +27,6 @@ module.exports = {
     hardhat: {
       chainId: 31337,
       blockConfirmations: 1,
-      accounts: getPrivateKeys().map((key) => ({
-        privateKey: key,
-        balance: "10000000000000000000000", // 10000 ETH
-      })),
     },
     sepolia: {
       chainId: 11155111,
