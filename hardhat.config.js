@@ -6,6 +6,7 @@ require("hardhat-contract-sizer");
 require("dotenv").config();
 
 const SEPOLIA_URL = process.env.SEPOLIA_URL;
+const POLYGON_URL = process.env.POLYGON_URL;
 
 // Get all private keys from .env
 const getPrivateKeys = () => {
@@ -31,6 +32,12 @@ module.exports = {
     sepolia: {
       chainId: 11155111,
       url: SEPOLIA_URL,
+      saveDeployments: true,
+      accounts: getPrivateKeys(),
+    },
+    polygon: {
+      chainId: 80001,
+      url: POLYGON_URL,
       saveDeployments: true,
       accounts: getPrivateKeys(),
     },
